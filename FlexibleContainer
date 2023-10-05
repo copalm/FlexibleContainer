@@ -1,0 +1,230 @@
+
+/*
+//
+// Name : Gabriel
+// SSID : 1865040
+// Assignment #: 2
+// Submission Date : 10/5/23
+//
+
+
+
+
+
+# ifndef _FLEXIBLE_CONTAINER_HPP
+# define _FLEXIBLE_CONTAINER_HPP
+
+
+# include <iostream>
+# include "Container.hpp"
+
+
+
+template <class T>
+class FlexibleContainer : public Container<T> {
+public:
+    // Constructor
+    FlexibleContainer(std::initializer_list<T> il) : _size(0), _data(nullptr) {
+        }
+
+    // Destructor
+    ~FlexibleContainer() {
+        delete[] _data;
+    }
+
+    
+
+
+
+
+    // Override and implement the resize function
+    bool resize(int s) override {
+        if (s < 0) {
+            return false; // Negative size is not allowed
+        }
+        T* newData = new T[s];
+        for (int i = 0; i < std::min(s, _size); ++i) {
+            newData[i] = _data[i];
+        }
+        delete[] _data;
+        _data = newData;
+        _size = s;
+        return true;
+    }
+
+    // Override and implement the empty function
+    bool empty() override {
+        return _size == 0;
+    }
+
+    // Override and implement the size function
+    int size() override {
+        return _size;
+    }
+
+    // Override and implement the begin function
+    T* begin() override {
+        return _data;
+    }
+
+    // Override and implement the end function
+    T* end() override {
+        return _data + _size;
+    }
+
+    // Override and implement the front function
+    T& front() override {
+        if (empty()) {
+            throw std::out_of_range("Container is empty");
+        }
+        return *_data;
+    }
+
+    // Override and implement the back function
+    T& back() override {
+        if (empty()) {
+            throw std::out_of_range("Container is empty");
+        }
+        return *(end() - 1);
+    }
+
+
+    // Override and implement the at function
+    T& at(int position) override {
+        if (position < 0 || position >= _size) {
+            throw std::out_of_range("Index out of range");
+        }
+        return _data[position];
+    }
+
+    // Override and implement the data function
+    T* data() override {
+        return _data;
+    }
+
+    // Override and implement the const version of the data function
+    const T* data() const override {
+        return _data;
+    }
+
+    // Override and implement the subscript operator
+    T& operator[](int position) override {
+        if (position < 0 || position >= _size) {
+            throw std::out_of_range("Index out of range");
+        }
+        return _data[position];
+    }
+
+private:
+    int _size = 0;  // Number of elements in and size of _data
+    T* _data = nullptr; // Pointer to an array of T elements
+};
+#endif
+*/
+
+// FlexibleContainer.hpp
+#ifndef _FLEXIBLE_CONTAINER_HPP
+#define _FLEXIBLE_CONTAINER_HPP
+
+#include <iostream>
+#include "Container.hpp"
+
+template <class T>
+class FlexibleContainer : public Container<T> {
+public:
+    // Constructor
+    FlexibleContainer(std::initializer_list<T> il) : _size(il.size()), _data(new T[il.size()]) {
+        int i = 0;
+        for (const T& val : il) {
+            _data[i++] = val;
+        }
+    }
+
+    // Destructor
+    ~FlexibleContainer() {
+        delete[] _data;
+    }
+
+    // Override and implement the resize function
+    bool resize(int s) override {
+        if (s < 0) {
+            return false; // Negative size is not allowed
+        }
+        T* newData = new T[s];
+        for (int i = 0; i < std::min(s, _size); ++i) {
+            newData[i] = _data[i];
+        }
+        delete[] _data;
+        _data = newData;
+        _size = s;
+        return true;
+    }
+
+    // Override and implement the empty function
+    bool empty() override {
+        return _size == 0;
+    }
+
+    // Override and implement the size function
+    int size() override {
+        return _size;
+    }
+
+    // Override and implement the begin function
+    T* begin() override {
+        return _data;
+    }
+
+    // Override and implement the end function
+    T* end() override {
+        return _data + _size;
+    }
+
+    // Override and implement the front function
+    T& front() override {
+        if (empty()) {
+            throw std::out_of_range("Container is empty");
+        }
+        return *_data;
+    }
+
+    // Override and implement the back function
+    T& back() override {
+        if (empty()) {
+            throw std::out_of_range("Container is empty");
+        }
+        return *(_data + _size - 1);
+    }
+
+    // Override and implement the at function
+    T& at(int position) override {
+        if (position < 0 || position >= _size) {
+            throw std::out_of_range("Index out of range");
+        }
+        return _data[position];
+    }
+
+    // Override and implement the data function
+    T* data() override {
+        return _data;
+    }
+
+    // Override and implement the const version of the data function
+    const T* data() const override {
+        return _data;
+    }
+
+    // Override and implement the subscript operator
+    T& operator[](int position) override {
+        if (position < 0 || position >= _size) {
+            throw std::out_of_range("Index out of range");
+        }
+        return _data[position];
+    }
+
+private:
+    int _size = 0;  // Number of elements in and size of _data
+    T* _data = nullptr; // Pointer to an array of T elements
+};
+
+#endif
