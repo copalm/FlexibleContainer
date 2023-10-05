@@ -1,0 +1,39 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <iterator>
+#include <string>
+#include <vector>
+#include <numeric>
+#include <algorithm>
+#include "FlexibleContainer.hpp" // Include the header file for FlexibleContainer
+
+int main() {
+    // Part I
+    std::cout << " ************ Part I **********\n";
+    std::cout << "Min, max and average of a list of numbers:\n";
+    std::cout << " ****************************\n";
+
+    // Create an initializer list of integers
+    std::initializer_list<int> il{5, 7, 1, 3, 1024, 19, 29, -64, 0};
+
+    // Create an instance of FlexibleContainer and initialize it with the initializer list
+    FlexibleContainer<int> flex_int_container(il);
+
+    // Sort the flex_int_container using std::sort
+    std::sort(flex_int_container.begin(), flex_int_container.end());
+
+    // Calculate and print the maximum, minimum, and average
+    std::cout << "max = " << flex_int_container.back() << "\n";
+    std::cout << "min = " << flex_int_container.front() << "\n";
+    std::cout << "average = " << std::accumulate(flex_int_container.begin(),
+                                                  flex_int_container.end(), 0.0) /
+                                                     flex_int_container.size() << "\n";
+
+    std::cout << std::endl;
+
+    std::cout << "\n ***** Tests completed , enter any key to exit *******\n";
+    char s;  std::cin >> s;
+
+    return 0;
+}
